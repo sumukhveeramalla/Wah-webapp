@@ -1,18 +1,19 @@
 import React, {useState} from 'react'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 
-export default function Login() {
-  const [credentials, setcredentials] = useState({email:"", password:""});
-  var navigate = useNavigate();
+export default function Signup() {
+  const [credentials, setcredentials] = useState({name:"", location:"", email:"", password:""})
 
   const handleSubmit = async(e)=>{
     e.preventDefault();
-    const response = await fetch("http://localhost:4000/api/LoginUser", {
+    const response = await fetch("http://localhost:4000/api/CreateUser", {
         method: 'POST',
         headers: {
             'Content-Type' : 'application/json'
         },
         body: JSON.stringify({
+            name: credentials.name,
+            location: credentials.location,
             email: credentials.email,
             password: credentials.password
         })
@@ -24,8 +25,6 @@ export default function Login() {
     if(!json.success){
         alert("Enter valid Credentials");
     }
-
-    navigate("/")
   };
 
   const onChange = ()=>{
@@ -35,6 +34,18 @@ export default function Login() {
   return (
     <div className='container'>
       <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="name" className="form-label">
+            Name
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="name"
+            value={credentials.name}
+            onChange={onChange}
+          />
+        </div>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">
             Email address
@@ -65,13 +76,26 @@ export default function Login() {
             onChange={onChange}
           />
         </div>
+        <div className="mb-3">
+          <label htmlFor="addr" className="form-label">
+            Address
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            name="location"
+            value={credentials.location}
+            id="addr"
+            onChange={onChange}
+          />
+        </div>
         <button type="submit" className="btn btn-success">
           Submit
         </button>
-        <Link to="/CreateUser" className="m-3 btn btn-danger">
-            I'm a New User
+        <Link to="/login" className="m-3 btn btn-danger">
+            Already a User
         </Link>
       </form>
     </div>
-  )
+  );
 }
