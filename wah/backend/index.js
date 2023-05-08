@@ -16,6 +16,7 @@ app.use((req, res, next)=>{
 app.use(express.json())
 app.use('/api', require('./Routes/User'))
 app.use('/api', require("./Routes/DisplayData"))
+app.use('/api', require("./Routes/Order"))
 
 app.get('/', (req, res) => {
   res.send('Hello World!!!')
